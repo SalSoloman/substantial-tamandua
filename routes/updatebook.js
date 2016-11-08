@@ -1,18 +1,17 @@
 var express = require('express');
 var router = express.Router();
-const test = require( '../public/javascripts/test' )
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', test: test() });
+  res.render('index', { title: 'Express'});
 });
 
 router.get('/add', function(req, res, next) {
-  res.render('index', { title: 'Add Book', test: test() });
+  res.render('index', { title: 'Add Book'});
 });
 
 router.get('/remove', function(req, res, next) {
-  res.render('index', { title: 'Remove Book', test: test() });
+  res.render('index', { title: 'Remove Book'});
 });
 
 

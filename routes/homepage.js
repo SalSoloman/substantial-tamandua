@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var test = require('../public/javascripts/test')
+var book = require('../database')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', test: test() });
+  res.render('homepage', { title: 'Express', book : book });
 });
+
+
+
 
 module.exports = router;
