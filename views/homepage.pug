@@ -2,8 +2,18 @@ extends layout
 
 block content
   h1= title
-  p Title: #{book.title}
-  p Author: #{book.author}
-  p Genre: #{book.genre}
-  p Description: #{book.description}
-  img(src=`${book.imageLink}`)
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Description
+        th imageLink
+    tbody
+      for book in books
+        tr
+          td
+            p Title: #{book.title}
+          td
+            p Description: #{book.description}
+          td
+            img(src=`${book.image_url}`)

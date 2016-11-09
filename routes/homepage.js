@@ -1,11 +1,23 @@
 var express = require('express');
 var router = express.Router();
-var book = require('../database')
+var database = require('../database')
+
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('homepage', { title: 'Express', book : book });
+router.get('/', function(request, response, next) {
+ let page = (parseInt(request.query.page))
+ if (isNaN(page)) page = 1;
+ database.getAllBooks(page)
+   .then( books => {
+     response.render('homepage', {
+       page: page,
+       books: books
+     })
+   }).catch(function(error){
+     throw error
+   })
+
 });
 
 

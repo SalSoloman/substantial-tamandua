@@ -1,10 +1,52 @@
-var book = {
-  id : 1,
-  title: 'how to not get work done',
-  author: 'Steve Weber and Sal',
-  genre: 'self-not-imporovment',
-  description: 'refer to the lazy song by Bruno Mars',
-  imageLink: 'http://images.guff.com//gallery/featurecover/6868-2'
+const databaseName = 'Bookstore'
+const connectionString = `postgres://${process.env.USER}@localhost:5432/${databaseName}`
+const pgp = require('pg-promise')();
+const db = pgp(connectionString);
+
+const getAllBooks = page => {
+  let offset = (page - 1) * 10
+  return db.any('SELECT * FROM books LIMIT 10 OFFSET $1', [offset])
+     .then(getAuthorsAndGenresForBookIds)
 }
 
-module.exports = book;
+const getAuthorsForBookIds = bookIds => {
+  const sql = `
+    SELECT authors.*, book_authors.book_id
+    FROM authors
+    JOIN book_authors
+    ON book_authors.author_id = authors.id
+    WHERE book_authors.book_id IN ($1:csv)
+  `
+  return db.any(sql, [bookIds])
+}
+
+const getGenresForBookIds = bookIds => {
+  const sql = `
+    SELECT genres.*, book_genres.book_id
+    FROM genres
+    JOIN book_genres
+    ON book_genres.genre_id = genres.id
+    WHERE book_genres.book_id IN ($1:csv)
+  `
+  return db.any(sql, [bookIds])
+}
+
+const getAuthorsAndGenresForBookIds = books => {
+  const bookIds = books.map( book => book.id)
+  if (bookIds.length === 0) return Promise.resolve(books)
+  return Promise.all([
+    getAuthorsForBookIds(bookIds),
+    getGenresForBookIds(bookIds)
+  ])
+    .then( results => {
+      const authors = results[0]
+      const genres = results[1]
+      books.forEach( book => {
+        book.authors = authors.filter( author => author.book_id === book.id)
+        book.genres = genres.filter( genre => genre.book_id === book.id)
+      })
+      return books
+    })
+}
+
+module.exports = {getAllBooks}
