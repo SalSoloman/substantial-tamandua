@@ -12,7 +12,12 @@ const getBooks = (page, one) => {
     var offset = (page - 1) * 10
     var limit = 10
   }
-  return db.any('SELECT * FROM books LIMIT $1 OFFSET $2', [limit, offset])
+  const sql = `
+    SELECT id,
+    title, image_url, description
+    FROM books LIMIT $1 OFFSET $2
+  `
+  return db.any(sql, [limit, offset])
      .then(getAuthorsAndGenresForBookIds)
 }
 
@@ -30,7 +35,8 @@ const getAuthorsForBookIds = bookIds => {
 
 const getGenresForBookIds = bookIds => {
   const sql = `
-    SELECT genres.*, book_genres.book_id
+    SELECT genres.id, genres.name,
+    book_genres.book_id
     FROM genres
     JOIN book_genres
     ON book_genres.genre_id = genres.id

@@ -7,7 +7,7 @@ var database = require('../database');
 router.get('/', function(request, respond, next) {
   database.getBooks(777, 1)
   .then( books =>
-  respond.render('bookDetails', {
+  respond.render('bookdetails', {
     books: books
   })
 )

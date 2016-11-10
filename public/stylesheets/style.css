@@ -3,6 +3,8 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black;
   color: darkred;
+  background-image: url('http://i3.wallpaperscraft.com/image/room_design_library_shelves_7910_3840x2400.jpg');
+  background-size: contain;
 }
 
 a {
@@ -13,7 +15,6 @@ p {
   color: darkred;
 }
 
-<<<<<<< Updated upstream
 
 table {
   border-style: solid;
@@ -30,9 +31,13 @@ th {
 }
 
 tr.row:nth-child(2n+0) {
-  background-color: orange;
-=======
+  background-color: rgba(255,165,0,.8);
+}
+
+tr.row:nth-child(2n+1) {
+  background-color: rgba(0,0,0,.7);
+}
+
 table:tr {
   max-height:50px;
->>>>>>> Stashed changes
 }
