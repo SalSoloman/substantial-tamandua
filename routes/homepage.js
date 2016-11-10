@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var database = require('../database')
+var database = require('../database');
 
 
 
@@ -8,7 +8,7 @@ var database = require('../database')
 router.get('/', function(request, response, next) {
  let page = (parseInt(request.query.page))
  if (isNaN(page)) page = 1;
- database.getAllBooks(page)
+ database.getBooks(page)
    .then( books => {
      response.render('homepage', {
        page: page,

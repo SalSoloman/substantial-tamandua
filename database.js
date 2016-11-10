@@ -3,11 +3,19 @@ const connectionString = `postgres://${process.env.USER}@localhost:5432/${databa
 const pgp = require('pg-promise')();
 const db = pgp(connectionString);
 
-const getAllBooks = page => {
-  let offset = (page - 1) * 10
-  return db.any('SELECT * FROM books LIMIT 10 OFFSET $1', [offset])
+const getBooks = (page, one) => {
+  if (one === 1) {
+    var offset = 0
+    var limit = one
+  }
+  else {
+    var offset = (page - 1) * 10
+    var limit = 10
+  }
+  return db.any('SELECT * FROM books LIMIT $1 OFFSET $2', [limit, offset])
      .then(getAuthorsAndGenresForBookIds)
 }
+
 
 const getAuthorsForBookIds = bookIds => {
   const sql = `
@@ -49,4 +57,4 @@ const getAuthorsAndGenresForBookIds = books => {
     })
 }
 
-module.exports = {getAllBooks}
+module.exports = {getBooks}
