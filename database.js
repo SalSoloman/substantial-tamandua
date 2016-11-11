@@ -63,4 +63,35 @@ const getAuthorsAndGenresForBookIds = books => {
     })
 }
 
-module.exports = {getBooks}
+const searchTitles = (options, page) => {
+  let offset = (page - 1) * 10
+  const sql = `
+    SELECT * FROM books WHERE
+    LOWER(books.title) IN ($1:csv) LIMIT 10
+    OFFSET $2
+  `
+  console.log(options)
+  const params = [ '%'+options.replace(/\s+/,'%').toLowerCase()+'%', offset ]
+  return db.any(sql, params)
+  .then(getAuthorsAndGenresForBookIds)
+}
+
+const deleteBookById = bookId => {
+  return db.none(`DELETE FROM books WHERE id = $1;
+    DELETE FROM book_authors WHERE book_id = $1;
+    DELETE FROM book_genres WHERE book_id = $1`, [bookId])
+}
+
+const deleteAuthorAssociationByBookIdSql = 'DELETE FROM book_authors WHERE book_authors.book_id = $1 AND book_authors.author_id = $2'
+
+const deleteAuthorAssociationByBookId = (bookId, authorId) => {
+  return db.none(deleteAuthorAssociationByBookIdSql, [bookId, authorId])
+}
+
+const deleteGenreAssociationByBookIdSql = 'DELETE FROM book_genres WHERE book_genres.book_id = $1 AND book_genres.genre_id = $2'
+
+const deleteGenreAssociationByBookId = (bookId, genreId) => {
+  return db.none(deleteGenreAssociationByBookIdSql, [bookId, genreId])
+}
+
+module.exports = {getBooks, searchTitles}

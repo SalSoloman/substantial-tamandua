@@ -6,19 +6,42 @@ var database = require('../database');
 
 /* GET home page. */
 router.get('/', function(request, response, next) {
- let page = (parseInt(request.query.page))
- if (isNaN(page)) page = 1;
- database.getBooks(page)
+  const { type } = request.query
+  const { options } = request.query
+
+console.log('type: ', type)
+  let page = (parseInt(request.query.page))
+  if (isNaN(page)) page = 1;
+  if (options === undefined)
+  {
+  database.getBooks(page)
    .then( books => {
      response.render('homepage', {
        page: page,
        books: books
      })
+
    }).catch(function(error){
      throw error
    })
+  }
+    else {
+     if(type === 'byTitle') {
+       console.log('searching...')
+     database.searchTitles(options, page)
+     .then( books => {
+       response.render('homepage', {
+         page: page,
+         books: books
+       })
+     })
+   }
+ }
 
 });
+
+
+
 
 
 
