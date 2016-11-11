@@ -13,7 +13,8 @@ block content
       for book in books
         tr.row
           td
-            img(src=`${book.image_url}`)
+            a(href=`/bookdetails/${book.id}`)
+              img(src=`${book.image_url}`)
             p #{book.title}
           td
             for author in book.authors

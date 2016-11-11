@@ -1,5 +1,5 @@
 extends layout
 block content
-    for title in books
-      p Title is #{title.title}
-      
+  for book in books
+    p Title is #{book.title}
+    img(src=`${book.image_url}`)

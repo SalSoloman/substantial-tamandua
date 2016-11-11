@@ -3,15 +3,9 @@ const connectionString = `postgres://${process.env.USER}@localhost:5432/${databa
 const pgp = require('pg-promise')();
 const db = pgp(connectionString);
 
-const getBooks = (page, one) => {
-  if (one === 1) {
-    var offset = 0
-    var limit = one
-  }
-  else {
-    var offset = (page - 1) * 10
-    var limit = 10
-  }
+const getBooks = (page) => {
+  var offset = (page - 1) * 10
+  var limit = 10
   const sql = `
     SELECT id,
     title, image_url, description
@@ -19,6 +13,14 @@ const getBooks = (page, one) => {
   `
   return db.any(sql, [limit, offset])
      .then(getAuthorsAndGenresForBookIds)
+}
+
+const getBookDetails = (id) => {
+  const sql = `
+  SELECT * FROM books WHERE id = $1
+  `
+  return db.any(sql, [id])
+    .then(getAuthorsAndGenresForBookIds)
 }
 
 
@@ -63,6 +65,10 @@ const getAuthorsAndGenresForBookIds = books => {
     })
 }
 
+// const getBooksAndAuthorsForGenres
+// const getBooksAndGenresForAuthors = authors =>
+
+
 const searchTitles = (options, page) => {
   let offset = (page - 1) * 10
   const sql = `
@@ -74,6 +80,31 @@ const searchTitles = (options, page) => {
   return db.any(sql, params)
   .then(getAuthorsAndGenresForBookIds)
 }
+
+// const searchAuthors = (options, page) => {
+//   let offset = (page - 1) * 10
+//   const sql = `
+//     SELECT * FROM authors WHERE
+//     LOWER(authors.name) LIKE ($1:csv) LIMIT 10
+//     OFFSET $2
+//   `
+//   const params = [ '%'+options.replace(/\s+/,'%').toLowerCase()+'%', offset ]
+//   return db.any(sql, params)
+//   .then(getBooksAndGenresForAuthors)
+// }
+//
+// const searchGenres = (options, page) => {
+//   let offset = (page - 1) * 10
+//   const sql = `
+//     SELECT * FROM genres WHERE
+//     LOWER(genres.name) LIKE ($1:csv) LIMIT 10
+//     OFFSET $2
+//   `
+//   const params = [ '%'+options.replace(/\s+/,'%').toLowerCase()+'%', offset ]
+//   return db.any(sql, params)
+//   .then(getBooksAndAuthorsForGenres)
+// }
+
 
 const deleteBookById = bookId => {
   return db.none(`DELETE FROM books WHERE id = $1;
@@ -93,4 +124,4 @@ const deleteGenreAssociationByBookId = (bookId, genreId) => {
   return db.none(deleteGenreAssociationByBookIdSql, [bookId, genreId])
 }
 
-module.exports = {getBooks, searchTitles}
+module.exports = {getBooks, searchTitles, getBookDetails}

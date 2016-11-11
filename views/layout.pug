@@ -10,14 +10,14 @@ html
   body
     nav.navbar-default.container
       form.navbar-form.pull-left(method="get")
-          input.form-control(type="text" placeholder="Search Books..." name="options")
-          button.btn.glyphicon.glyphicon-search(type="submit" value="Search")
-          input(type='radio', value='byTitle', name='type')
-          i Book Titles
-          input(type='radio', value='byAuthor', name='type')
-          i Book Authors
-          input(type='radio', value='byGenre', name='type')
-          i Book Genres
+        input.form-control(type="text" placeholder="Search Books..." name="options")
+        button.btn.glyphicon.glyphicon-search(type="submit" value="Search")
+        input(type='radio', value='byTitle', name='type')
+        i Book Titles
+        input(type='radio', value='byAuthor', name='type')
+        i Book Authors
+        input(type='radio', value='byGenre', name='type')
+        i Book Genres
       block content
         nav
           a(href='/')
