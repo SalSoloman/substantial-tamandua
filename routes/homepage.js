@@ -25,18 +25,21 @@ console.log('type: ', type)
      throw error
    })
   }
-    else {
-     if(type === 'byTitle') {
+    else if (type === 'byTitle') {
        console.log('searching...')
      database.searchTitles(options, page)
      .then( books => {
+       console.log(books)
+       if(books === undefined) {
+         response.send('No books')
+       }
        response.render('homepage', {
          page: page,
          books: books
        })
      })
    }
- }
+
 
 });
 

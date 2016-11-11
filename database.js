@@ -67,10 +67,9 @@ const searchTitles = (options, page) => {
   let offset = (page - 1) * 10
   const sql = `
     SELECT * FROM books WHERE
-    LOWER(books.title) IN ($1:csv) LIMIT 10
+    LOWER(books.title) LIKE ($1:csv) LIMIT 10
     OFFSET $2
   `
-  console.log(options)
   const params = [ '%'+options.replace(/\s+/,'%').toLowerCase()+'%', offset ]
   return db.any(sql, params)
   .then(getAuthorsAndGenresForBookIds)
