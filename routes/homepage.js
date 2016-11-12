@@ -40,40 +40,40 @@ console.log('type: ', type)
        })
      })
    }
- //
- //   else if (type === 'byAuthor') {
- //      console.log('searching...')
- //    database.searchAuthors(options, page)
- //    .then( books => {
- //      console.log(books)
- //      if(books === undefined) {
- //        response.send('No books')
- //      }
- //      response.render('homepage', {
- //        page: page,
- //        books: books
- //      })
- //    })
- //  }
- //
- //  else if (type === 'byGenre') {
- //     console.log('searching...')
- //   database.searchGenres(options, page)
- //   .then( books => {
- //     console.log(books)
- //     if(books === undefined) {
- //       response.send('No books')
- //     }
- //     response.render('homepage', {
- //       page: page,
- //       books: books
- //     })
- //   })
- // }
- //
- // else {
- //   database.searchAllBooks(options, page)
- // }
+
+   else if (type === 'byAuthor') {
+      console.log('searching...')
+    database.searchAuthors(options, page)
+    .then( books => {
+      console.log(books)
+      if(books === undefined) {
+        response.send('No books')
+      }
+      response.render('homepage', {
+        page: page,
+        books: books
+      })
+    })
+  }
+
+  else if (type === 'byGenre') {
+     console.log('searching...')
+   database.searchGenres(options, page)
+   .then( books => {
+     console.log(books)
+     if(books === undefined) {
+       response.send('No books')
+     }
+     response.render('homepage', {
+       page: page,
+       books: books
+     })
+   })
+ }
+
+ else {
+   database.searchAllBooks(options, page)
+ }
 
 
 });
