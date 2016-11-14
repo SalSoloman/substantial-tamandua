@@ -6,12 +6,9 @@ var database = require('../database');
 router.get('/:id', function(request, respond, next) {
   const id = request.params.id
   const { options } = request.query
-  console.log('Query:  ', request.params)
-  if (options !== undefined) {
-    console.log('Search yo')
-    respond.redirect('..')
-    respond.end()
-  }
+  //  if (options !== undefined) {
+  //    respond.render('homepage', { books: books})
+  //  }
   database.getBookDetails(id)
   .then( books => {
   respond.render('bookdetails', {
@@ -21,10 +18,10 @@ router.get('/:id', function(request, respond, next) {
 })
 });
 
-router.get('/:id*', function(request, respond, next) {
-  console.log('REDIRECT\n\n\n')
-  respond.redirect('..')
-  })
-
+// router.get('/:id*', function(request, respond, next) {
+//   console.log('REDIRECT\n\n\n')
+//   respond.redirect('..')
+//   })
+//
 
 module.exports = router;

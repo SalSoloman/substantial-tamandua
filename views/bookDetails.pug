@@ -1,5 +1,13 @@
 extends layout
 block content
-  for book in books
-    p Title is #{book.title}
-    img.details(src=`${book.image_url}`)
+  br
+  row.col-md-6
+    for book in books
+      h1 Title:  #{book.title}
+      h1 Authors:
+      for author in book.authors
+        h1 #{author.name}
+      img.details(src=`${book.image_url}`)
+  row.col-md-6
+    for book in books
+      h1 Description:  #{book.description}
