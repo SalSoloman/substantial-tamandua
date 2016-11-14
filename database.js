@@ -79,13 +79,13 @@ const getAuthorsAndGenresForBookIds = books => {
     })
 }
 
-const getBooksAndAuthorsForGenres = (genres) => {
+const getBooksAndAuthorsForGenreIds = (genres) => {
   const genreIds = genres.map( genre => genre.id)
   if (genreIds.length === 0) return Promise.resolve(genres)
   return Promise.resolve(getBooksForGenreIds(genreIds))
   .then(getAuthorsAndGenresForBookIds)
 }
-const getBooksAndGenresForAuthors = authors => {
+const getBooksAndGenresForAuthorIds = authors => {
   const authIds = authors.map( author => author.id)
   if (authIds.length === 0) return Promise.resolve(authors)
   return Promise.resolve(getBooksForAuthIds(authIds))
@@ -114,7 +114,7 @@ const searchAuthors = (options, page) => {
   `
   const params = [ '%'+options.replace(/\s+/,'%').toLowerCase()+'%', offset ]
   return db.any(sql, params)
-  .then(getBooksAndGenresForAuthors)
+  .then(getBooksAndGenresForAuthorIds)
 }
 
 const searchGenres = (options, page) => {
@@ -126,18 +126,30 @@ const searchGenres = (options, page) => {
   `
   const params = [ '%'+options.replace(/\s+/,'%').toLowerCase()+'%', offset ]
   return db.any(sql, params)
-  .then(getBooksAndAuthorsForGenres)
+  .then(getBooksAndAuthorsForGenreIds)
 }
 
-const deleteAuthorAssociationByBookIdSql = 'DELETE FROM book_authors WHERE book_authors.book_id = $1 AND book_authors.author_id = $2'
+// const addBook = () =>{
+//   const sql = `
+// INSERT INTO books VALUES(DEFAULT, $1, $2, $3, NULL)
+//   `
+// }
 
 const deleteAuthorAssociationByBookId = (bookId, authorId) => {
+  const deleteAuthorAssociationByBookIdSql = `
+    DELETE FROM book_authors
+    WHERE book_authors.book_id = $1
+    AND book_authors.author_id = $2
+    `
   return db.none(deleteAuthorAssociationByBookIdSql, [bookId, authorId])
 }
 
-const deleteGenreAssociationByBookIdSql = 'DELETE FROM book_genres WHERE book_genres.book_id = $1 AND book_genres.genre_id = $2'
-
 const deleteGenreAssociationByBookId = (bookId, genreId) => {
+  const deleteGenreAssociationByBookIdSql = `
+    DELETE FROM book_genres
+    WHERE book_genres.book_id = $1
+    AND book_genres.genre_id = $2
+    `
   return db.none(deleteGenreAssociationByBookIdSql, [bookId, genreId])
 }
 

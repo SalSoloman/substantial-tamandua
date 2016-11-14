@@ -2,7 +2,7 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: black;
-  color: darkred;
+  color: white;
   background-image: url('http://i3.wallpaperscraft.com/image/room_design_library_shelves_7910_3840x2400.jpg');
   background-size: contain;
 }
@@ -11,31 +11,51 @@ a {
   color: #00B7FF;
 }
 
-p {
-  color: darkred;
+img.details {
+  height: 25%;
+  width: 25%;
 }
 
+p {
+  color: white;
+  background-color: rgba(0,0,0,.5);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+ul {
+  background-color: rgba(0,0,0,.5);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+nav.navbar-default.container {
+  background-color: black;
+}
 
 table {
   border-style: solid;
-  border-width: 1px;
+  border-width: 5px;
   margin: 5px;
 }
 
 td {
-  border: 1px solid gold;
+  border: 5px solid gold;
+  padding: 1%;
 }
 th {
-  border: 1px solid gold;
+  border: 5px solid gold;
   font-size: 1.5em;
 }
 
 tr.row:nth-child(2n+0) {
-  background-color: rgba(255,165,0,.8);
+  background: linear-gradient(rgba(255, 215, 0, .9),
+  rgba(255, 215, 0, .5), rgba(255, 215, 0, .9))
+
 }
 
 tr.row:nth-child(2n+1) {
-  background-color: rgba(0,0,0,.7);
+  background-color: rgba(255, 215, 0, .5)
 }
 
 table:tr {

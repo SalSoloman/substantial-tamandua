@@ -2,4 +2,4 @@ extends layout
 block content
   for book in books
     p Title is #{book.title}
-    img(src=`${book.image_url}`)
+    img.details(src=`${book.image_url}`)

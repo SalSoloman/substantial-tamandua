@@ -1,31 +1,49 @@
 extends layout
 
 block content
-  h1= title
-  table.table.table-striped
+  if page > 1
+    a.pull-left.btn.btn-info(href='/?page='+(page-1))
+      .glyphicon.glyphicon-chevron-left
+      |Previous
+  a.pull-right.btn.btn-info(href='/?page='+(page+1)) Next
+    .glyphicon.glyphicon-chevron-right
+  br
+  br
+  table
     thead
-      tr
-        th
-        th Author
-        th Genre
-        th Description
+      th
+      th
+      th Title
+      th Author
+      th Genre
+      th Description
+
     tbody
       for book in books
         tr.row
           td
             a(href=`/bookdetails/${book.id}`)
               img(src=`${book.image_url}`)
+          td
             p #{book.title}
           td
             for author in book.authors
               ul
                 li #{author.name}
           td
-            ul
               -var genreNames = book.genres.map(genre => genre.name)
               -genreNames = genreNames.filter((element, index, array) => !array.slice(0, index).includes(element))
               for genreName in genreNames
-                li #{genreName}
+                ul
+                  li #{genreName}
           td
             -var description = book.description ? book.description : 'No description available'
-            p  #{description.slice(0,300)}
+            p  #{description.slice(0,300)}...
+            br
+
+  if page > 1
+    a.pull-left.btn.btn-info(href='/?page='+(page-1))
+      .glyphicon.glyphicon-chevron-left
+      |Previous
+  a.pull-right.btn.btn-info(href='/?page='+(page+1)) Next
+    .glyphicon.glyphicon-chevron-right

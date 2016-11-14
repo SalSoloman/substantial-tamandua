@@ -9,25 +9,30 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     nav.navbar-default.container
-      form.navbar-form.pull-left(method="get")
-        input.form-control(type="text" placeholder="Search Books..." name="options")
-        button.btn.glyphicon.glyphicon-search(type="submit" value="Search")
-        input(type='radio', value='byTitle', name='type')
-        i Book Titles
-        input(type='radio', value='byAuthor', name='type')
-        i Book Authors
-        input(type='radio', value='byGenre', name='type')
-        i Book Genres
-      block content
-        nav
-          a(href='/')
-            img(src='http://ancientexplorers.com/wp-content/uploads/sites/6/2014/12/Depositphotos_41302969_l.jpg', alt='logo', width='100', height='100')
-          ul
-            li
-              a(href='/') Home
-            li
-              a(href='/addbook') Add Book
-            li
-              a(href='/bookdetails') bookdetails
+      .row.col-md-3
+        a(href='/')
+          img(src='http://ancientexplorers.com/wp-content/uploads/sites/6/2014/12/Depositphotos_41302969_l.jpg', alt='logo', width='150', height='150')
+      .row.col-md-3
+        ul
+          li
+            a(href='/') Home
+          li
+            a(href='/addbook') Add Book
+      .row.col-md-6
+        form.navbar-form.pull-left(method="get")
+          input.form-control(type="text" placeholder="Search Books..." name="options")
+          button.btn.glyphicon.glyphicon-search(type="submit" value="Search")
+          br
+          br
+          input(type='radio', value='byTitle', name='type', checked)
+          i  Book Titles
+          br
+          input(type='radio', value='byAuthor', name='type')
+          i  Book Authors
+          br
+          input(type='radio', value='byGenre', name='type')
+          i  Book Genres
+          br
+
 
   block content
